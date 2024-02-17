@@ -1,2 +1,2 @@
 # Blog-Template
-It's an simple but effective Blog template.
+It's an simple but effective Blog template. Of course.
