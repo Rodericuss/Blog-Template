@@ -12,7 +12,15 @@ router.get("/posts", (req, res) => {
   res.send("Paginas de cadastro de posts!");
 });
 router.get("/categorias", (req, res) => {
-  res.render("admin/categorias");
+  Categoria.find().sort({date: "desc"})
+    .then((categorias) => {
+      res.render("admin/categorias", { categorias: categorias });
+      console.log(categorias);
+    })
+    .catch((err) => {
+      req.flash("error_msg", "Houve um erro ao listar as categorias");
+      res.redirect("/admin");
+    });
 });
 router.get("/categorias/add", (req, res) => {
   res.render("admin/addcategorias");
@@ -53,7 +61,7 @@ router.post("/categorias/nova", (req, res) => {
         res.redirect("/admin/categorias");
       })
       .catch((err) => {
-        req.flash("error_msg","Erro ao salvar a nova categoria!")
+        req.flash("error_msg", "Erro ao salvar a nova categoria!");
         console.log(`Erro ao criar categoria: ${err}`);
       });
   }
