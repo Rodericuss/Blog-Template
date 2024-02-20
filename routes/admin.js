@@ -18,6 +18,21 @@ router.get("/categorias/add", (req, res) => {
   res.render("admin/addcategorias");
 });
 router.post("/categorias/nova", (req, res) => {
+  // **logica para verificar e criar avisos de erro de cadastro de categoria
+  var erros = [];
+  if(!req.body.name || typeof req.body.name == undefined || req.body.name == null){
+    erros.push({texto: "Nome da categoria é invalido!"})
+  };
+  if(!req.body.slug || typeof req.body.slug == undefined || req.body.slug == null){
+    erros.push({texto: "Slug da categoria é invalido!"})
+  };
+  if(req.body.name.lenght < 2){
+    erros.push({texto: "Nome da categoria é muito pequeno!"})
+  };
+  if(erros.lenght > 0){
+    res.render("admin/addcategorias",{erros: erros})
+  };
+  // criando uma nova categoria no banco
   const novaCategoria = {
     nome: req.body.nome,
     slug: req.body.slug,
