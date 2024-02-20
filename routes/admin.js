@@ -50,7 +50,7 @@ router.post("/categorias/nova", (req, res) => {
       .save()
       .then(() => {
         req.flash("success_msg", "Sucesso ao salvar a nova categoria!");
-        res.redirect("admin/categorias");
+        res.redirect("/admin/categorias");
       })
       .catch((err) => {
         req.flash("error_msg","Erro ao salvar a nova categoria!")
