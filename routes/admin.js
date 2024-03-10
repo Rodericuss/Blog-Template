@@ -66,5 +66,9 @@ router.post("/categorias/nova", (req, res) => {
       });
   }
 });
+
+router.post("/categorias/edit/:id", (req, res) => {
+  res.send("Pagina de edição de categoria");
+}); 
 // exportando as rotas para o projeto
 module.exports = router;
