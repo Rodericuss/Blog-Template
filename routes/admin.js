@@ -12,7 +12,7 @@ router.get("/posts", (req, res) => {
   res.send("Paginas de cadastro de posts!");
 });
 router.get("/categorias", (req, res) => {
-  Categoria.find().sort({date: "desc"})
+  Categoria.find().sort({ date: "desc" })
     .then((categorias) => {
       res.render("admin/categorias", { categorias: categorias });
       console.log(categorias);
@@ -67,8 +67,13 @@ router.post("/categorias/nova", (req, res) => {
   }
 });
 
-router.post("/categorias/edit/:id", (req, res) => {
-  res.send("Pagina de edição de categoria");
-}); 
+router.get("/categorias/edit/:id", (req, res) =>{
+  Categoria.findOne({ _id: req.body.id }).then((categoria) => {
+    res.render("admin/editcategorias", { categoria: categoria });
+  }).catch((err) => {
+    req.flash("error_msg", "esta caegoria não existe");
+    res.redirect("/admin/categorias");
+  })}
+);
 // exportando as rotas para o projeto
 module.exports = router;
