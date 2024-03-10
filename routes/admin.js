@@ -8,9 +8,63 @@ const Categoria = mongoose.model("categorias");
 router.get("/", (req, res) => {
   res.render("admin/index");
 });
-router.get("/posts", (req, res) => {
-  res.send("Paginas de cadastro de posts!");
+// listar as postagens
+router.get("/postagens", (req, res) => {
+  res.render("admin/postagens");
 });
+// formulario de postagem
+router.get("/postagens/add", (req, res) => {
+  Categoria.find().lean().then((categorias) => {
+    res.render("admin/addpostagens", { categorias: categorias });
+  })
+    .catch((err) => {
+      req.flash("error_msg", "Houve um erro ao carregar o formulário");
+      res.redirect("/admin");
+    });
+});
+// postar a postagem
+router.post("/postagem/nova", (req, res) => {
+  // **logica para verificar e criar avisos de erro de cadastro de categoria
+  var erros = [];
+  if (
+    !req.body.titulo ||
+    typeof req.body.titulo == undefined ||
+    req.body.titulo == null
+  ) {
+    erros.push({ texto: "Título é invalido!" });
+  }
+  if (req.body.Título.length < 2) {
+    erros.push({ texto: "Título é muito pequeno!" });
+  }
+  if (
+    !req.body.slug ||
+    typeof req.body.slug == undefined ||
+    req.body.slug == null
+  ) {
+    erros.push({ texto: "Slug da categoria é invalido!" });
+  } if (
+    !req.body.descricao ||
+    typeof req.body.descricao == undefined ||
+    req.body.descricao == null
+  ) {
+    erros.push({ texto: "Descrição é invalida!" });
+  } if (
+    !req.body.conteudo ||
+    typeof req.body.conteudo == undefined ||
+    req.body.conteudo == null
+  ) {
+    erros.push({ texto: "Conteudo é invalido!" });
+  } if (
+    req.body.categoria == "0"
+  ) {
+    erros.push({ texto: "Categoria inválida, registre uma categoria" })
+  }
+  if (erros.length > 0) {
+    res.render("admin/addpostagens", { erros: erros });
+  } else {
+
+  });
+// lista categorias
 router.get("/categorias", (req, res) => {
   Categoria.find().sort({ date: "desc" })
     .then((categorias) => {
@@ -22,9 +76,11 @@ router.get("/categorias", (req, res) => {
       res.redirect("/admin");
     });
 });
+// formulario para adicionar categoria
 router.get("/categorias/add", (req, res) => {
   res.render("admin/addcategorias");
 });
+// posta a categoria nova
 router.post("/categorias/nova", (req, res) => {
   // **logica para verificar e criar avisos de erro de cadastro de categoria
   var erros = [];
