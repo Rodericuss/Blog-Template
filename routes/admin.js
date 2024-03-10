@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 require("../models/Categoria");
 const Categoria = mongoose.model("categorias");
+require("../models/Postagem")
+const Postagem = mongoose.model("postagens")
 
 // Definindo as rotas
 router.get("/", (req, res) => {
@@ -63,7 +65,27 @@ router.post("/postagem/nova", (req, res) => {
     res.render("admin/addpostagens", { erros: erros });
   } else {
 
-  });
+    // criando uma nova postagem no banco
+    const novaPostagem = {
+      titulo: req.body.titulo,
+      slug: req.body.slug,
+      descricao: req.body.descricao,
+      conteudo: req.body.conteudo,
+      categoria: req.body.categoria
+    };
+    new Postagem(novaPostagem)
+      .save()
+      .then(() => {
+        req.flash("success_msg", "Sucesso ao salvar a nova postagem!");
+        res.redirect("/admin/addpostagens");
+      })
+      .catch((err) => {
+        req.flash("error_msg", "Erro ao salvar a nova postagem!");
+        res.redirect("/admin/addpostagens");
+        console.log(`Erro ao criar postagem: ${err}`);
+      });
+  }
+});
 // lista categorias
 router.get("/categorias", (req, res) => {
   Categoria.find().sort({ date: "desc" })
