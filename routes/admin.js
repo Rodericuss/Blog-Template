@@ -35,7 +35,7 @@ router.post("/postagem/nova", (req, res) => {
   ) {
     erros.push({ texto: "Título é invalido!" });
   }
-  if (req.body.Título.length < 2) {
+  if (req.body.titulo.length < 2) {
     erros.push({ texto: "Título é muito pequeno!" });
   }
   if (
