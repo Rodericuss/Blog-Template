@@ -78,7 +78,8 @@ router.post("/postagem/nova", (req, res) => {
       slug: req.body.slug,
       descricao: req.body.descricao,
       conteudo: req.body.conteudo,
-      categoria: req.body.categoria
+      categoria: req.body.categoria,
+      date: new Date
     };
     new Postagem(novaPostagem)
       .save()
