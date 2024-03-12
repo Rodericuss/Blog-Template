@@ -187,6 +187,18 @@ router.post("/postagens/edit", (req, res) => {
       })
   }
 })
+// Deletando postagem
+router.post("/postagens/deletar", (req, res) => {
+  Postagem.deleteOne({ _id: req.body.id })
+    .then(() => {
+      req.flash("success_msg", "Sucesso ao deletar a postagem!");
+      res.redirect("/admin/postagens");
+    })
+    .catch((err) => {
+      req.flash("error_msg", "Erro ao deletar a postagem");
+      res.redirect("/admin/postagens");
+    });
+})
 // lista categorias
 router.get("/categorias", (req, res) => {
   Categoria.find().sort({ date: "desc" })
@@ -301,7 +313,7 @@ router.post("/categorias/edit", (req, res) => {
       })
   }
 })
-
+// deletando categorias
 router.post("/categorias/deletar", (req, res) => {
   Categoria.deleteOne({ _id: req.body.id })
     .then(() => {
