@@ -58,7 +58,7 @@ app.use("/admin", admin);
 
 // rotas principais
 app.get("/", (req, res) => {
-  res.send("rota principal");
+  res.render("index")
 });
 app.get("/listadeposts", (req, res) => {
   res.send("lista de posts!");
