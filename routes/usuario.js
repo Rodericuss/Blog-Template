@@ -6,11 +6,12 @@ const Usuario = mongoose.model('usuarios')
 const bcrypt = require("bcryptjs")
 const passport = require('passport')
 
+// NOTE: Função para renderizar a pagina de registro
 router.get('/registro', (req, res) => {
   res.render("usuarios/registro")
 })
 
-
+// NOTE: Função para registrar um usuario
 router.post('/registro', (req, res) => {
   var erros = [];
   if (
@@ -84,10 +85,11 @@ router.post('/registro', (req, res) => {
     })
   }
 })
+// NOTE: Função para renderizar a pagina de login
 router.get("/login", (req, res) => {
   res.render("usuarios/login")
 })
-
+// NOTE: Função para logar o usuario em uma sessão
 router.post("/login", (req, res, next) => {
   passport.authenticate('local', {
     successRedirect: '/',
@@ -95,7 +97,7 @@ router.post("/login", (req, res, next) => {
     failureFlash: true
   })(req, res, next)
 })
-
+// NOTE: Função para deslogar o usuario de uma sessão
 router.get("/logout", (req, res) => {
   req.logout((err) => {
     req.flash('success_msg', "Deslogado com sucesso!")
