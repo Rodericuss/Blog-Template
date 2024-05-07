@@ -108,7 +108,6 @@ app.get("/categorias", (req, res) => {
     })
 });
 // rota de acesso à alguma categoria
-
 app.get("/categorias/:slug", (req, res) => {
   Categoria.findOne({ slug: req.params.slug }).lean().then((categoria) => {
     if (categoria) {
